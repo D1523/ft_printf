@@ -1,49 +1,37 @@
 #include "ft_printf.h"
 
-static char	*create_string(unsigned int value, int *strlen)
+static int	hex_len(unsigned int n)
 {
-	int				i;
-	unsigned int	temp;
-	char			*str;
+	int	len;
 
-	i = 0;
-	temp = value;
-	while (temp != 0)
+	len = 1;
+	while (n >= 16)
 	{
-		temp = temp / 16;
-		i++;
+		n /= 16;
+		len++;
 	}
-	str = calloc(i + 1, sizeof(char));
-	*strlen = i - 1;
-	return (str);
+	return (len);
+}
+
+static void	put_hex(unsigned int n, int asc)
+{
+	if (n >= 16)
+		put_hex(n / 16, asc);
+	if ((n % 16) < 10)
+		ft_putchar_fd((n % 16) + '0', 1);
+	else
+		ft_putchar_fd((n % 16) + asc, 1);
 }
 
 int	print_hex(unsigned int value, int asc)
 {
-	unsigned int	tempval;
-	char			*printout;
-	int				i;
-	int				*iptr;
-
-	iptr = &i;
-	tempval = value;
-	printout = create_string(value, iptr);
-	if (!printout)
-		return (0);
-	while (tempval != 0)
-	{
-		if ((tempval % 16) < 10)
-			printout[i] = (tempval % 16) + 48;
-		else
-			printout[i] = (tempval % 16) + asc;
-		tempval = tempval / 16;
-		i--;
-	}
-	ft_putstr_fd(printout, 1);
-	i = ft_strlen(printout);
-	free(printout);
 	if (value == 0)
-		i += print_char('0');
-	return (i);
+	{
+		ft_putchar_fd('0', 1);
+		return (1);
+	}
+	put_hex(value, asc);
+	return (hex_len(value));
 }
+
 
