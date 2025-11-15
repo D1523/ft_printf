@@ -1,5 +1,5 @@
 # ft_printf
-
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/1fd191a4-dc82-47d9-aba2-2d9eab4bb552" />
 Reimplementation of the standard C `printf` function as part of the 42 school curriculum.
 
 The goal is to understand how variadic functions work in C, how format strings are parsed,
